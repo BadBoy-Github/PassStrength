@@ -1,30 +1,78 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
 const App = () => {
+
+  const [warnings, setWarnings] = useState([]);
+
+  let [space, setSpace] = useState("false");
+  let [nouppercase, setNoUppercase] = useState("true");
+  let [nolowercase, setNoLowercase] = useState("true");
+  let [nosymbols, setNoSymbols] = useState("true");
+  let [nonumber, setNonumber] = useState("true");
+  let [lengthmax, setLengthmax] = useState("true");
+
+  const checkPass = () => {
+    let password = document.getElementById("password").value;
+
+    // Check all conditions first
+    const hasSpace = password.includes(" ");
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasSymbols = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasLength = password.length >= 8;
+
+    // Set states
+    setSpace(hasSpace ? "true" : "false");
+    setNoUppercase(hasUppercase ? "false" : "true");
+    setNoLowercase(hasLowercase ? "false" : "true");
+    setNoSymbols(hasSymbols ? "false" : "true");
+    setNonumber(hasNumber ? "false" : "true");
+    setLengthmax(hasLength ? "false" : "true");
+
+    // Create warnings using the CURRENT values
+    const newWarnings = [];
+
+    if (!hasLength) newWarnings.push("Length should be more than 8");
+    if (!hasUppercase)
+      newWarnings.push("Should have at least 1 uppercase letter");
+    if (!hasLowercase)
+      newWarnings.push("Should have at least 1 lowercase letter");
+    if (!hasSymbols) newWarnings.push("Should have at least 1 symbol");
+    if (!hasNumber) newWarnings.push("Should have at least 1 number");
+    if (hasSpace) newWarnings.push("Should not have space");
+
+    setWarnings(newWarnings);
+  };
+
+
   return (
-    <div className="h-screen w-full bg-pink-300/40 flex justify-center items-center">
-      <div className="w-[50%] h-[70%] bg-[#2E8B8A] shadow-2xl shadow-zinc-500 rounded-2xl overflow-hidden flex flex-col items-center">
+    <div className="h-screen w-full bg-[#e6e6e6] flex justify-center items-center">
+      <div className="w-[50%] h-[70%] bg-[##FFFFFF] shadow-2xl shadow-zinc-500 rounded-2xl overflow-hidden flex flex-col items-center">
         <div className="flex w-full flex-col gap-2 items-center justify-center">
-          <h1 className="text-[#2A3B5F] mt-10 text-3xl font-bold">
+          <h1 className="text-[#3B82F6] mt-10 text-3xl font-bold">
             PassStrength
           </h1>
-          <p className="text-[#2a3b5fb1] text-lg">
+          <p className="text-[#3b83f6da] text-lg">
             Strength-test your secret before the hackers do.
           </p>
         </div>
-        <div className="bg-green-400 mt-12 w-[80%]">
-          <div className="bg-red-400 flex items-center justify-between">
-            <p className=''>Password: </p>
-            <input type="text" placeholder="Enter your password here..." className='w-[86%]'/>
+        <div className="mt-12 w-[80%]">
+          <div className="flex items-center justify-between">
+            <p className="text-[#3B82F6] font-semibold">Password: </p>
+            <input
+              type="text"
+              placeholder="Enter your password here..."
+              className="w-[86%] h-10 p-2 outline-none text-[#3B82F6] border-2 border-[#3B82F6] rounded-lg"
+              id="password"
+              onInput={checkPass}
+            />
           </div>
-          <ul>
-            <li>Length should be more than 8</li>
-            <li>Should have atleast 1 symbol</li>
-            <li>Should have atleast 1 number</li>
-            <li>Should have atleast 1 uppercase letter</li>
-            <li>Should have atleast 1 lowercase letter</li>
-            <li>Should not have space</li>
+          <ul className="text-[#EC4899] list-disc w-[80%] ml-4 mt-8">
+            {warnings.map((warning, index) => (
+              <li key={index}>{warning}</li>
+            ))}
           </ul>
         </div>
       </div>

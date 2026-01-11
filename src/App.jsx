@@ -5,12 +5,12 @@ const App = () => {
 
   const [warnings, setWarnings] = useState([]);
 
-  let [space, setSpace] = useState("false");
+  let [lengthmax, setLengthmax] = useState("true");
   let [nouppercase, setNoUppercase] = useState("true");
   let [nolowercase, setNoLowercase] = useState("true");
   let [nosymbols, setNoSymbols] = useState("true");
   let [nonumber, setNonumber] = useState("true");
-  let [lengthmax, setLengthmax] = useState("true");
+  let [space, setSpace] = useState("false");
 
   const checkPass = () => {
     let password = document.getElementById("password").value;

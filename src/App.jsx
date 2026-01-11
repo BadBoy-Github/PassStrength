@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const App = () => {
 
@@ -11,6 +11,23 @@ const App = () => {
   let [nosymbols, setNoSymbols] = useState("true");
   let [nonumber, setNonumber] = useState("true");
   let [space, setSpace] = useState("false");
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      // Set initial warnings on first render
+      setWarnings([
+        "Length should be more than 8",
+        "Should have at least 1 uppercase letter",
+        "Should have at least 1 lowercase letter",
+        "Should have at least 1 symbol",
+        "Should have at least 1 number",
+        "Should not have space",
+      ]);
+      isInitialMount.current = false;
+    }
+  }, []);
 
   const checkPass = () => {
     let password = document.getElementById("password").value;

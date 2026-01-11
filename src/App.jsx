@@ -16,20 +16,20 @@ const App = () => {
     let password = document.getElementById("password").value;
 
     // Check all conditions first
-    const hasSpace = password.includes(" ");
+    const hasLength = password.length >= 8;
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasSymbols = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
     const hasNumber = /\d/.test(password);
-    const hasLength = password.length >= 8;
+    const hasSpace = password.includes(" ");
 
     // Set states
-    setSpace(hasSpace ? "true" : "false");
+    setLengthmax(hasLength ? "false" : "true");
     setNoUppercase(hasUppercase ? "false" : "true");
     setNoLowercase(hasLowercase ? "false" : "true");
     setNoSymbols(hasSymbols ? "false" : "true");
     setNonumber(hasNumber ? "false" : "true");
-    setLengthmax(hasLength ? "false" : "true");
+    setSpace(hasSpace ? "true" : "false");
 
     // Create warnings using the CURRENT values
     const newWarnings = [];
